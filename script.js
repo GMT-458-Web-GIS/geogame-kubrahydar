@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         
         // --- Graphics options ---
 
-        
+        imageryProvider: new Cesium.IonImageryProvider({ assetId: 2 }), // Asset ID 2 is "Blue Marble"
+
         // Enable high-definition terrain
         terrainProvider: await Cesium.Terrain.fromWorldTerrain(),
     });
