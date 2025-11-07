@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     // --- FINAL ATTEMPT: BACK TO BASICS ---
 
     // Your personal Cesium ION default access token
-    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIZ1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3ZmQ0OTJiYS0wODAyLTQzOGQtYjcyNi0yNDY5NWNmZWQ1YzIiLCJpZCI6MzU4MTUzLCJpYXQiOjE3NjI1MTM0MzN9.91ERlysYeALoMQZB8o-y4-7FwP9lplsWjUHDwkBNdrM';
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyYTQxM2U2Mi1lMDMyLTRiMmItYjlmYi04ZmFhNzljNWVlNjgiLCJpZCI6MzU4MTUzLCJpYXQiOjE3NjI1MTYxMTl9.h-rK-Qyyhho2pkDtSojKehRFV7HQDCNM-20mmtQCtG4';
 
     try {
         // Initialize the viewer WITHOUT specifying providers.
