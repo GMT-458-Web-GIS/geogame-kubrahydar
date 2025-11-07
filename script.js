@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         // --- Graphics options ---
 
         // FIX: Imagery loading is also async. We must 'await' it.
-        imageryProvider: await Cesium.Imagery.fromWorldImagery(),
+        imageryProvider: await Cesium.IonImageryProvider.fromAssetId(3954),
 
         // Enable high-definition terrain
         terrainProvider: await Cesium.Terrain.fromWorldTerrain(),
