@@ -27,8 +27,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         
         // --- Graphics options ---
 
-        // We use a high-resolution base map for better visuals
-        imageryProvider: new Cesium.IonImageryProvider({ assetId: 3954 }), // Sentinel-2 Blue Marble
         
         // Enable high-definition terrain
         terrainProvider: await Cesium.Terrain.fromWorldTerrain(),
