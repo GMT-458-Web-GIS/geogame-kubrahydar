@@ -3,41 +3,51 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     
     console.log('ISS Photo Mission script loaded!');
 
-    // --- STEP 2: INITIALIZE CESIUM ---
+    // --- STEP 2.5: REFACTORING CESIUM INITIALIZATION ---
+    // This is the correct async pattern.
 
-    // Set your Cesium ION default access token.
-    // This is required to load Cesium's default base maps (imagery, terrain).
-    // You can generate your own token at https://cesium.com/ion/
-    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NTVhNjBmNS0xMGJiLTQ2OGMtYjhmMS04M2RhYjQ0YWM4NzgiLCJpZCI6MzU4MTUzLCJpYXQiOjE3NjI1MTM0NTZ9.WmsEI5SKLojYNaDhfZt8yWIZDRJjiM2YdQaK-k6GV7s';
+    // Your personal Cesium ION default access token
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3ZmQ0OTJiYS0wODAyLTQzOGQtYjcyNi0yNDY5NWNmZWQ1YzIiLCJpZCI6MzU4MTUzLCJpYXQiOjE3NjI1MTM0MzN9.91ERlysYeALoMQZB8o-y4-7FwP9lplsWjUHDwkBNdrM';
 
-    // Initialize the Cesium Viewer in the 'cesiumContainer' div.
-    const viewer = new Cesium.Viewer('cesiumContainer', {
-        // --- Viewer options to simplify the UI ---
-
-        animation: false, // Hide the animation widget
-        baseLayerPicker: false, // Hide the base map picker
-        fullscreenButton: false, // Hide the fullscreen button
-        geocoder: false, // Hide the geocoder (search bar)
-        homeButton: false, // Hide the home button
-        infoBox: false, // Hide the info box on click
-        sceneModePicker: false, // Hide the 3D/2D/Columbus view picker
-        selectionIndicator: false, // Hide the green selection indicator
-        timeline: false, // Hide the timeline
-        navigationHelpButton: false, // Hide the navigation help button
+    try {
+        // 1. First, 'await' (wait) for the imagery and terrain to be ready
+        console.log('Loading imagery (Asset 3)...');
+        // Asset ID 3 is "Blue Marble Next Generation" (standard, should work)
+        const imageryProvider = await Cesium.IonImageryProvider.fromAssetId(3); 
         
-        // --- Graphics options ---
+        console.log('Loading terrain...');
+        const terrainProvider = await Cesium.Terrain.fromWorldTerrain();
 
-        // FIX: Imagery loading is also async. We must 'await' it.
-        imageryProvider: await Cesium.IonImageryProvider.fromAssetId(3),
+        console.log('Imagery and Terrain loaded successfully. Initializing viewer...');
 
-        // Enable high-definition terrain
-        terrainProvider: await Cesium.Terrain.fromWorldTerrain(),
-    });
+        // 2. NOW, create the viewer and pass in the already-loaded providers
+        const viewer = new Cesium.Viewer('cesiumContainer', {
+            imageryProvider: imageryProvider,
+            terrainProvider: terrainProvider,
 
-    // Add this line to remove the "Cesium" logo at the bottom
-    viewer.cesiumWidget.creditContainer.style.display = 'none';
+            // --- Viewer options to simplify the UI ---
+            animation: false,
+            baseLayerPicker: false,
+            fullscreenButton: false,
+            geocoder: false,
+            homeButton: false,
+            infoBox: false,
+            sceneModePicker: false,
+            selectionIndicator: false,
+            timeline: false,
+            navigationHelpButton: false,
+        });
 
-    console.log('Cesium viewer initialized.');
+        // Add this line to remove the "Cesium" logo at the bottom
+        viewer.cesiumWidget.creditContainer.style.display = 'none';
 
-    // --- END OF STEP 2 ---
+        console.log('Cesium viewer initialized successfully!');
+
+    } catch (error) {
+        // If anything goes wrong (bad token, bad asset ID), log it here!
+        // This will prevent the "black screen of death".
+        console.error('Failed to initialize Cesium:', error);
+    }
+    
+    // --- END OF REFACTOR ---
 });
