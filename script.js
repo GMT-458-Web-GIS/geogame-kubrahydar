@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         imageryProvider: new Cesium.IonImageryProvider({ assetId: 3954 }), // Sentinel-2 Blue Marble
         
         // Enable high-definition terrain
-        terrainProvider: Cesium.createWorldTerrain()
+        terrainProvider: new Cesium.WorldTerrain()
     });
 
     // Add this line to remove the "Cesium" logo at the bottom
