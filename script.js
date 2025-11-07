@@ -1,29 +1,25 @@
 // Wait for the DOM (HTML structure) to be fully loaded before running any script
-document.addEventListener('DOMContentLoaded', async (event) => {
+document.addEventListener('DOMContentLoaded', (event) => {
     
     console.log('ISS Photo Mission script loaded!');
 
-    // --- STEP 2.5: REFACTORING CESIUM INITIALIZATION ---
-    // This is the correct async pattern.
+    // --- FINAL ATTEMPT: BACK TO BASICS ---
 
     // Your personal Cesium ION default access token
     Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3ZmQ0OTJiYS0wODAyLTQzOGQtYjcyNi0yNDY5NWNmZWQ1YzIiLCJpZCI6MzU4MTUzLCJpYXQiOjE3NjI1MTM0MzN9.91ERlysYeALoMQZB8o-y4-7FwP9lplsWjUHDwkBNdrM';
 
     try {
-        // 1. First, 'await' (wait) for the imagery and terrain to be ready
-        console.log('Loading imagery (Asset 3)...');
-        // Asset ID 3 is "Blue Marble Next Generation" (standard, should work)
-        const imageryProvider = await Cesium.IonImageryProvider.fromAssetId(3); 
+        // Initialize the viewer WITHOUT specifying providers.
+        // The Viewer constructor will handle loading its own defaults
+        // (default imagery and world terrain) using the token above.
+        // This is the simplest, most robust method.
         
-        console.log('Loading terrain...');
-        const terrainProvider = await Cesium.Terrain.fromWorldTerrain();
+        console.log('Initializing Cesium Viewer (default settings)...');
 
-        console.log('Imagery and Terrain loaded successfully. Initializing viewer...');
-
-        // 2. NOW, create the viewer and pass in the already-loaded providers
         const viewer = new Cesium.Viewer('cesiumContainer', {
-            imageryProvider: imageryProvider,
-            terrainProvider: terrainProvider,
+            // We only need to tell it which terrain to use by default
+            // This IS synchronous (non-async)
+            terrain: Cesium.Terrain.fromWorldTerrain(),
 
             // --- Viewer options to simplify the UI ---
             animation: false,
@@ -44,10 +40,9 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         console.log('Cesium viewer initialized successfully!');
 
     } catch (error) {
-        // If anything goes wrong (bad token, bad asset ID), log it here!
-        // This will prevent the "black screen of death".
+        // If the token is bad, this will catch it.
         console.error('Failed to initialize Cesium:', error);
     }
     
-    // --- END OF REFACTOR ---
+    // --- END OF FINAL ATTEMPT ---
 });
