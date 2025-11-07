@@ -1,5 +1,5 @@
 // Wait for the DOM (HTML structure) to be fully loaded before running any script
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', async (event) => {
     
     console.log('ISS Photo Mission script loaded!');
 
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         imageryProvider: new Cesium.IonImageryProvider({ assetId: 3954 }), // Sentinel-2 Blue Marble
         
         // Enable high-definition terrain
-        terrainProvider: new Cesium.WorldTerrain()
+        terrainProvider: await Cesium.Terrain.fromWorldTerrain(),
     });
 
     // Add this line to remove the "Cesium" logo at the bottom
