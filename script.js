@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     // Set your Cesium ION default access token.
     // This is required to load Cesium's default base maps (imagery, terrain).
     // You can generate your own token at https://cesium.com/ion/
-    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYjAxYjgwMy1mMzEwLTRiNjItOGYwNi0xZDY5YjQ0M2EzMDUiLCJpZCI6MTk2MTE4LCJpYXQiOjE3MDkzNTY2NzZ9.8NF5FNkIN0OdX1g0e-xt5hixv5luA-eGacY79a-ZpG4';
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMjQyZGJkYi1kYjAyLTRlOTctOWU4Yy0xOGRlMGFkMGRkOTciLCJpZCI6MzU4MTUzLCJpYXQiOjE3NjI1MTMxMjV9.YBcEFV6zOVMRlHKz0HybjhreBW8z3-XzsRk-9J3rc0Q';
 
     // Initialize the Cesium Viewer in the 'cesiumContainer' div.
     const viewer = new Cesium.Viewer('cesiumContainer', {
