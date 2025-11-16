@@ -1,12 +1,11 @@
 // Wait for the DOM (HTML structure) to be fully loaded before running any script
 document.addEventListener('DOMContentLoaded', async (event) => {
 
-    console.log('Distance Estimation Mission script loaded!');
+    console.log('Historical Match-Up script loaded!');
 
     // --- 1. CESIUM VE ARAYÜZ (UI) AYARLARI ---
 
-    // Your personal Cesium ION default access token
-    // Lütfen KENDİ Cesium.Ion.defaultAccessToken değerinizi buraya girin!
+    // Sizin Cesium ION default access token'ınız (Önceki kodunuzdan alındı)
     Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyYTQxM2U2Mi1lMDMyLTRiMmItYjlmYi04ZmFhNzljNWVlNjgiLCJpZCI6MzU4MTUzLCJpYXQiOjE3NjI1MTYxMTl9.h-rK-Qyyhho2pkDtSojKehRFV7HQDCNM-20mmtQCtG4';
 
     // HTML'den UI elemanlarını seç
@@ -18,27 +17,62 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     // Oyun durumu değişkenleri
     let score = 0;
-    let gameTime = 120; // 2 dakika = 120 saniye
+    let gameTime = 180; // 3 dakika
     let gameTimerInterval = null;
     let viewer = null;
-    let startPoint = null;
-    let endPoint = null;
-    let userClicks = [];
-    let measurementLine = null;
+    let handler = null; // Tıklama dinleyicisi
+    let currentQuestionIndex = -1; // -1 olarak başlar, ilk soru 0 olur
+    let processingClick = false; // Ardışık tıklamaları engellemek için
 
-    // Hedef noktaları (Basitlik için sadece iki şehir)
+    // OYUNUN YENİ HEDEFLERİ (SORULAR)
     const missionTargets = [
-        { name: "London, UK", lon: -0.1278, lat: 51.5074, color: Cesium.Color.RED },
-        { name: "New York City, USA", lon: -74.0060, lat: 40.7128, color: Cesium.Color.BLUE }
+        { 
+            id: 1, 
+            question: "Site of the 1889 World's Fair (Eiffel Tower)", 
+            lon: 2.2945, 
+            lat: 48.8584, 
+            position: Cesium.Cartesian3.fromDegrees(2.2945, 48.8584),
+            found: false 
+        },
+        { 
+            id: 2, 
+            question: "Ancient wonder near the Nile (Pyramids)", 
+            lon: 31.1342, 
+            lat: 29.9792, 
+            position: Cesium.Cartesian3.fromDegrees(31.1342, 29.9792),
+            found: false 
+        },
+        { 
+            id: 3, 
+            question: "Site of the 1986 nuclear disaster (Chernobyl)", 
+            lon: 30.0980, 
+            lat: 51.3891, 
+            position: Cesium.Cartesian3.fromDegrees(30.0980, 51.3891),
+            found: false 
+        },
+        { 
+            id: 4, 
+            question: "The 'Lost City of the Incas' (Machu Picchu)", 
+            lon: -72.5450, 
+            lat: -13.1631, 
+            position: Cesium.Cartesian3.fromDegrees(-72.5450, -13.1631),
+            found: false 
+        },
+        { 
+            id: 5, 
+            question: "Where the Titanic sank (North Atlantic)", 
+            lon: -49.9469, 
+            lat: 41.7269, 
+            position: Cesium.Cartesian3.fromDegrees(-49.9469, 41.7269),
+            found: false 
+        }
     ];
 
     try {
         // --- 2. CESIUM BAŞLATMA ---
 
-        console.log('Initializing Cesium Viewer...');
-
         viewer = new Cesium.Viewer('cesiumContainer', {
-            terrain: Cesium.Terrain.fromWorldTerrain(),
+            terrain: Cesium.Terrain.fromWorldTerrain(), // 3D Arazi
             animation: false,
             baseLayerPicker: false,
             fullscreenButton: false,
@@ -49,58 +83,41 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             selectionIndicator: false,
             timeline: false,
             navigationHelpButton: false,
-            // Basitleştirilmiş oyun için kamera kontrolünü serbest bırak
-            // viewer.trackedEntity = issEntity kaldırıldı.
         });
 
         viewer.cesiumWidget.creditContainer.style.display = 'none';
-        console.log('Cesium viewer initialized successfully!');
 
-        // Harita başlangıç görünümünü ayarlama
+        // Başlangıç kamera konumu
         viewer.camera.flyTo({
-            destination: Cesium.Cartesian3.fromDegrees(-40.0, 30.0, 15000000.0),
-            duration: 2.0 // Hızlı başlangıç
+            destination: Cesium.Cartesian3.fromDegrees(-30.0, 35.0, 15000000.0),
+            duration: 1.0
         });
-        
-        // --- 3. UYDU/ISS KALDIRILDI ---
-        // TLE, getSatellitePosition, issEntity ve viewer.trackedEntity kaldırıldı.
 
-        // --- 4. OYUN MANTIĞI VE ETKİLEŞİM ---
+        // --- 3. OYUN MANTIĞI: TARİHİ EŞLEŞTİRME ---
 
-        // Hedefleri haritaya ekle (Sadece 2 nokta)
-        function addTargets() {
-            startPoint = missionTargets[0];
-            endPoint = missionTargets[1];
-            
-            // Başlangıç noktası
-            viewer.entities.add({
-                id: startPoint.name,
-                position: Cesium.Cartesian3.fromDegrees(startPoint.lon, startPoint.lat),
-                point: { pixelSize: 15, color: startPoint.color, outlineColor: Cesium.Color.WHITE, outlineWidth: 3 },
-                label: { text: "START: " + startPoint.name, font: '14pt sans-serif', fillColor: Cesium.Color.WHITE, style: Cesium.LabelStyle.FILL_AND_OUTLINE, verticalOrigin: Cesium.VerticalOrigin.BOTTOM, pixelOffset: new Cesium.Cartesian2(0, -15) }
-            });
-
-            // Bitiş noktası
-            viewer.entities.add({
-                id: endPoint.name,
-                position: Cesium.Cartesian3.fromDegrees(endPoint.lon, endPoint.lat),
-                point: { pixelSize: 15, color: endPoint.color, outlineColor: Cesium.Color.WHITE, outlineWidth: 3 },
-                label: { text: "END: " + endPoint.name, font: '14pt sans-serif', fillColor: Cesium.Color.WHITE, style: Cesium.LabelStyle.FILL_AND_OUTLINE, verticalOrigin: Cesium.VerticalOrigin.BOTTOM, pixelOffset: new Cesium.Cartesian2(0, -15) }
-            });
-        }
-        
-        // Görev listesini UI'da güncelle
+        // Görev listesini (UI) güncelle
         function updateMissionList() {
-            targetListEl.innerHTML = `
-                <li>1. Başlangıç: ${startPoint.name} (${startPoint.color.toCssColorString()})</li>
-                <li>2. Bitiş: ${endPoint.name} (${endPoint.color.toCssColorString()})</li>
-                <li style="color: #4CAF50;">Görev: İki noktayı birleştiren en kısa çizgiyi çek!</li>
-            `;
+            targetListEl.innerHTML = '';
+            missionTargets.forEach((target, index) => {
+                const li = document.createElement('li');
+                if (target.found) {
+                    li.textContent = `${target.question} (Found ✔️)`;
+                    li.style.color = '#4CAF50';
+                    li.style.textDecoration = 'line-through';
+                } else if (index === currentQuestionIndex) {
+                    li.textContent = `${target.question} (Active 🎯)`;
+                    li.style.color = '#FFFF00'; // Sarı - Aktif görev
+                } else {
+                    li.textContent = `${target.question} (Pending)`;
+                    li.style.color = '#ddd';
+                }
+                targetListEl.appendChild(li);
+            });
         }
-        
+
         // Puanı güncelle
         function updateScore(points) {
-            score += points;
+            score = Math.max(0, score + points); // Puan 0'ın altına düşmesin
             scoreValueEl.textContent = score;
         }
 
@@ -112,171 +129,146 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
         // Zamanlayıcıyı güncelle
         function updateTimer() {
-            gameTime--;
             const minutes = Math.floor(gameTime / 60);
             const seconds = gameTime % 60;
             timeValueEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-            if (gameTime <= 0) {
-                endGame("Time's up! Mission failed.");
-            }
-        }
-        
-        // İki nokta arasındaki gerçek mesafeyi hesaplama (Büyük daire)
-        function calculateGreatCircleDistance(p1, p2) {
-            // Cesium.EllipsoidGeodesic ile en doğru mesafeyi hesapla
-            const geodetic1 = Cesium.Cartographic.fromCartesian(p1);
-            const geodetic2 = Cesium.Cartographic.fromCartesian(p2);
-            
-            const geodesic = new Cesium.EllipsoidGeodesic(geodetic1, geodetic2);
-            // distance, metre cinsindendir.
-            return geodesic.getSurfaceDistance() / 1000; // KM'ye çevir
-        }
-
-        // Kullanıcının çizdiği hattı haritaya ekler
-        function drawUserLine() {
-            // Önceki çizgiyi kaldır
-            if (measurementLine) {
-                viewer.entities.remove(measurementLine);
-            }
-            
-            // Kullanıcının Başlangıç ve Bitiş noktalarına tıklaması bekleniyor
-            if (userClicks.length === 2) {
-                
-                measurementLine = viewer.entities.add({
-                    polyline: {
-                        positions: userClicks,
-                        width: 5,
-                        material: Cesium.Color.YELLOW,
-                        arcType: Cesium.ArcType.GEODESIC // Eğri hat (Gerçek mesafeye yakın)
-                    }
-                });
+            if (gameTime > 0) {
+                gameTime--;
+            } else if (gameTime <= 0) {
+                endGame("Time's up!");
             }
         }
 
-        // Tıklama olaylarını dinleme
-        const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-        handler.setInputAction(function(click) {
-            if (userClicks.length >= 2 || gameTime <= 0) {
-                return; // 2 tıklamadan sonra veya oyun bittiyse daha fazla tıklamayı engelle
-            }
-            
-            // Tıklanan konumu al
+        // Haritaya tıklama olayını yönet
+        function handleMapClick(click) {
+            // Oyun bittiyse veya bir önceki tıklama işleniyorsa dur
+            if (gameTime <= 0 || processingClick) return;
+
+            const currentTarget = missionTargets[currentQuestionIndex];
+            // Mevcut hedef zaten bulunduysa (ve yeni soru bekleniyorsa) tıklamayı yoksay
+            if (!currentTarget || currentTarget.found) return;
+
+            processingClick = true; // Yeni tıklamaları engelle
+
             const cartesian = viewer.camera.pickEllipsoid(click.position, viewer.scene.globe.ellipsoid);
-            if (cartesian) {
-                userClicks.push(cartesian);
-                
-                // Tıklanan noktaları haritada işaretle
-                viewer.entities.add({
-                    position: cartesian,
-                    point: {
-                        pixelSize: 10,
-                        color: userClicks.length === 1 ? Cesium.Color.YELLOW : Cesium.Color.ORANGE,
-                        outlineColor: Cesium.Color.BLACK,
-                        outlineWidth: 2
-                    }
-                });
-                
-                drawUserLine();
-                
-                if (userClicks.length === 2) {
-                    // İki nokta da tıklandı, mesafeyi hesapla ve puanla
-                    calculateAndScore();
-                } else {
-                     updateMessage("First point clicked! Now click the second point.");
-                }
-            }
-        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-
-        // Mesafe Hesaplama ve Puanlama
-        function calculateAndScore() {
-            // Gerçek mesafe (Doğrudan iki hedef arasındaki mesafe)
-            const targetPosition1 = Cesium.Cartesian3.fromDegrees(startPoint.lon, startPoint.lat);
-            const targetPosition2 = Cesium.Cartesian3.fromDegrees(endPoint.lon, endPoint.lat);
-            const actualDistanceKm = calculateGreatCircleDistance(targetPosition1, targetPosition2);
-
-            // Kullanıcının çizdiği hattın mesafesi
-            const userDistanceKm = calculateGreatCircleDistance(userClicks[0], userClicks[1]);
-            
-            // Mutlak farkı hesapla
-            const differenceKm = Math.abs(actualDistanceKm - userDistanceKm);
-            
-            // Puanlama mantığı: Fark ne kadar azsa o kadar yüksek puan
-            let pointsEarned = 0;
-            if (differenceKm <= 50) {
-                pointsEarned = 10000;
-            } else if (differenceKm <= 200) {
-                pointsEarned = 5000;
-            } else if (differenceKm <= 500) {
-                pointsEarned = 2000;
-            } else if (differenceKm <= 1000) {
-                pointsEarned = 500;
+            if (!cartesian) {
+                processingClick = false;
+                return; // Harita dışına tıklandıysa
             }
 
-            if (pointsEarned > 0) {
-                updateScore(pointsEarned);
-                updateMessage(`SUCCESS! Difference: ${differenceKm.toFixed(0)} km. +${pointsEarned} pts!`);
+            // Tıklanan nokta ile doğru cevap arasındaki mesafeyi hesapla
+            const correctPosition = currentTarget.position;
+            const distance = Cesium.Cartesian3.distance(cartesian, correctPosition);
+            const distanceInKm = distance / 1000;
+
+            // Puanlama: 250km'lik bir yarıçapı kabul edelim
+            const proximityThresholdKm = 250;
+
+            if (distanceInKm <= proximityThresholdKm) {
+                // BAŞARILI
+                currentTarget.found = true;
+                updateScore(5000);
+                updateMessage(`Success! You found "${currentTarget.question}". +5000 pts!`);
+                
+                // Haritada doğru yeri yeşil olarak işaretle
+                addMarker(correctPosition, currentTarget.question, Cesium.Color.LIMEGREEN);
+                
+                // Bir sonraki soruya geç
+                setTimeout(loadNextQuestion, 2000); // 2 saniye bekle
             } else {
-                updateMessage(`FAIL! Difference: ${differenceKm.toFixed(0)} km. Too far!`, true);
+                // BAŞARISIZ (HATA)
+                updateScore(-500); // Puan cezası
+                gameTime -= 10; // Zaman cezası
+                if (gameTime < 0) gameTime = 0; // Zamanın eksiye düşmesini engelle
+
+                updateMessage(`Miss! That was ${distanceInKm.toFixed(0)} km away. Try again. (-500 pts, -10 sec)`, true);
+                
+                // Tıkladığı yanlış yeri kırmızı ile işaretle
+                addMarker(cartesian, "Miss", Cesium.Color.RED.withAlpha(0.7));
+                
+                processingClick = false; // Tekrar denemesine izin ver
             }
-            
-            // Gerçek mesafeyi gösteren çizgiyi çiz
+
+            updateMissionList(); // Listeyi güncelle
+        }
+
+        // Haritaya işaretçi ekler
+        function addMarker(position, name, color) {
             viewer.entities.add({
-                polyline: {
-                    positions: [targetPosition1, targetPosition2],
-                    width: 3,
-                    material: Cesium.Color.LIMEGREEN.withAlpha(0.6),
-                    arcType: Cesium.ArcType.GEODESIC // Eğri hat
+                position: position,
+                point: {
+                    pixelSize: 12,
+                    color: color,
+                    outlineColor: Cesium.Color.WHITE,
+                    outlineWidth: 2
+                },
+                label: {
+                    text: name,
+                    font: '10pt sans-serif',
+                    fillColor: Cesium.Color.WHITE,
+                    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                    pixelOffset: new Cesium.Cartesian2(0, -12)
                 }
             });
-            
-            // Oyunu durdur
-            endGame(`Estimation Complete! Actual Distance: ${actualDistanceKm.toFixed(0)} km. Your Distance: ${userDistanceKm.toFixed(0)} km.`, false);
+        }
+        
+        // Bir sonraki soruyu veya hedefi yükle
+        function loadNextQuestion() {
+            currentQuestionIndex++;
+            processingClick = false; // Tıklamayı tekrar aç
+
+            if (currentQuestionIndex >= missionTargets.length) {
+                endGame("All targets found! Mission Complete!");
+                return;
+            }
+
+            const currentTarget = missionTargets[currentQuestionIndex];
+            updateMessage(`Find the location: <b>${currentTarget.question}</b>`);
+            updateMissionList();
+
+            // İpucu: Kamerayı o bölgeye doğru yavaşça hareket ettirebiliriz
+            // (Ama tam göstermeden)
+            viewer.camera.flyTo({
+                destination: Cesium.Cartesian3.fromDegrees(currentTarget.lon, currentTarget.lat - 15, 9000000.0), // Liderlik et
+                orientation: {
+                    heading: Cesium.Math.toRadians(0.0),
+                    pitch: Cesium.Math.toRadians(-65.0),
+                },
+                duration: 1.5
+            });
         }
 
         // Oyunu bitir
-        function endGame(message, isError = false) {
-            clearInterval(gameTimerInterval);
-            captureButton.disabled = true;
-            captureButton.textContent = "MISSION COMPLETE";
-            captureButton.style.backgroundColor = '#888';
-            handler.destroy(); // Tıklama dinleyicisini kaldır
+        function endGame(message) {
+            clearInterval(gameTimerInterval); // Zamanlayıcıyı durdur
+            if (handler) {
+                handler.destroy(); // Tıklama dinleyicisini kaldır
+                handler = null;
+            }
+            gameTime = 0;
+            updateTimer(); // Zamanı 00:00 olarak ayarla
+
+            updateMessage(`<b>${message}</b><br>Final Score: ${score}`, false);
             
-            updateMessage(`<b>${message}</b><br>Final Score: ${score}`, isError);
-            // 'PLAY AGAIN' butonu veya modal burada gösterilebilir.
+            // Butonu "PLAY AGAIN" (Yeniden Oyna) yap
+            captureButton.textContent = "PLAY AGAIN";
+            captureButton.style.backgroundColor = '#4CAF50';
+            captureButton.disabled = false;
+            // Tıklandığında sayfayı yeniden yükle (en basit "yeniden başlatma" yolu)
+            captureButton.onclick = () => window.location.reload();
         }
 
         // Oyunu başlat
         function startGame() {
             score = 0;
-            gameTime = 120;
-            userClicks = []; // Yeni oyun için sıfırla
-            viewer.entities.removeAll(); // Önceki noktaları ve çizgileri temizle
+            gameTime = 180; // 3 dakika
+            currentQuestionIndex = -1;
+            processingClick = false;
+            viewer.entities.removeAll(); // Eski işaretçileri temizle
             
+            // Tüm hedefleri 'bulunmadı' olarak sıfırla
+            missionTargets.forEach(t => t.found = false);
+
             scoreValueEl.textContent = '0';
-            timeValueEl.textContent = '02:00';
-            captureButton.disabled = true; // Bu oyunda butona gerek yok
-            captureButton.textContent = "CLICK ON MAP";
-            captureButton.style.backgroundColor = '#555';
-            
-            addTargets();
-            updateMissionList();
-            updateMessage("Click the map twice to estimate the distance between the two targets.");
-
-            // Zamanlayıcıyı başlat
-            gameTimerInterval = setInterval(updateTimer, 1000);
-            
-            // Not: captureButton.onclick artık kullanılmayacak, harita tıklamaları kullanılacak.
-        }
-
-        // --- 5. OYUNU BAŞLAT ---
-        startGame();
-
-    } catch (error) {
-        // If the token is bad, this will catch it.
-        console.error('Failed to initialize Cesium or Game:', error);
-        messageAreaEl.innerHTML = "<p>FATAL ERROR: Could not load simulation. Check console and ensure your Cesium Ion Token is correct.</p>";
-        messageAreaEl.style.color = 'red';
-    }
-
-});
