@@ -7,6 +7,7 @@
 This project is a world capitals guessing game. You must guess the targeted capital by clicking on the map. The game features time, life, and score systems.
 
 ✨ Features
+
 * Capital guessing by clicking on the world map
 * Score system (Points based on distance)
 * Life system (Loss of life on wrong guesses)
@@ -18,6 +19,7 @@ This project is a world capitals guessing game. You must guess the targeted capi
 * Game start screen (Intro screen)
 
 🗺️ How to Play
+
 1.  Start the game by pressing the 'Start Game' button.
 2.  See the target country and capital information in the top-right corner of the screen.
 3.  Make your guess by clicking the point you think is the capital on the map.
@@ -29,6 +31,7 @@ This project is a world capitals guessing game. You must guess the targeted capi
 5.  The game ends if the time runs out or all lives are lost.
 
 🧩 File Structure
+
 * **index.html** → Game interface
 * **script.js** → Game mechanics and map operations
 * **styles.css** → Design, themes, and animations
