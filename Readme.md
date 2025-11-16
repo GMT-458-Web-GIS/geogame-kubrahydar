@@ -38,5 +38,3 @@ This project is a world capitals guessing game. You must guess the targeted capi
 * Leaflet MiniMap (Mini-map)
 * HTML, CSS, JavaScript
 * Responsive design
-* You can add your hand-drawn sketch to the Wireframe / Sketch section of this README later.
-* Just let me know if there are other sections you'd like to add ❤️
