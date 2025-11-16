@@ -1,11 +1,5 @@
-Elbette, README dosyanızın İngilizce çevirisi aşağıdadır:
-
----
-
-📘 Capitals Game — README
+📘 Capitals Game
 🖼️ Wireframe / Sketch
-Space is left below for you to add your own hand-drawn sketch:
-Sketch Area:
 
 ![Taslak Çizim](sketch.jpg)
 
