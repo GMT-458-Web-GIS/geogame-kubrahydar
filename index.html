@@ -1,34 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historical Match-Up (GMT 458)</title> <link rel="stylesheet" href="style.css">
-
-    <link href="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
-    <script src="https://cesium.com/downloads/cesiumjs/releases/1.122/Build/Cesium/Cesium.js"></script>
-
-    </head>
-
+    <title>Başkent Bulmaca</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
 <body>
 
-    <div id="cesiumContainer"></div>
-
-    <div id="uiPanel">
-        <h1>Historical Match-Up</h1> <div class="score-board">
-            <h2>Score: <span id="scoreValue">0</span></h2>
-            <h2>Time: <span id="timeValue">03:00</span></h2> </div>
-
-        <div class="mission-list">
-            <h3>Mission Targets</h3>
-            <ul id="targetList">
-                </ul>
+    <div id="game-container">
+        <div id="game-ui">
+            <h1>Başkent Bulmaca</h1>
+            <div class="stats">
+                <p>Süre: <span id="timer">60</span></p>
+                <p>Skor: <span id="score">0</span></p>
+            </div>
+            <h3>Bulunması Gereken Başkent:</h3>
+            <h2 id="question">Yükleniyor...</h2>
         </div>
 
-        <button id="captureButton">LOADING...</button> <div id="messageArea">
-            <p>Initializing mission... Good luck!</p> </div>
+        <div id="map"></div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="game.js"></script>
 </body>
 </html>
