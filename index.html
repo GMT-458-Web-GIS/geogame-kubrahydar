@@ -1,43 +1,61 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>GeoGuessr‑style Capitals Game</title>
+  <title>Capitals Game</title>
   <link rel="stylesheet" href="styles.css" />
-  <!-- Leaflet -->
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <!-- Leaflet MiniMap plugin -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-minimap/dist/Control.MiniMap.min.css"/>
-  <script src="https://unpkg.com/leaflet-minimap/dist/Control.MiniMap.min.js"></script>
 </head>
 <body>
-  <div id="map"></div>
-
-  <div class="topbar">
-      <div>⏱️ <span id="time">60</span>s</div>
-      <div>⭐ <span id="score">0</span> puan</div>
-      <div>❤️ <span id="lives">3</span></div>
-  </div>
-
-  <div class="bottom-panel">
-    <div class="panel-box">
-        <div class="city-name">Hedef: <span id="cityName">—</span></div>
-        <div id="roundResult">Tahmin yapmadınız.</div>
-        <div class="info-log"><ol id="log"></ol></div>
-        <br>
-        <button id="startBtn">Başlat</button>
-        <button id="nextBtn" style="margin-left:10px; background:#444;">Atla</button>
-        <select id="themeSel" style="margin-left:12px;padding:8px;border-radius:8px;background:#222;color:#fff;">
-          <option value="dark">Dark</option>
-          <option value="neon">Neon</option>
-          <option value="pastel">Pastel</option>
-          <option value="retro">Retro</option>
-        </select>
+  <!-- Intro fullscreen -->
+  <div id="intro">
+    <div class="intro-inner">
+      <div class="logo">Capitals Game</div>
+      <div class="tag">Guess the world capitals — fast and precise.</div>
+      <button id="beginBtn" class="primary">Start Game</button>
+      <div class="hint">Click start to load the map. No sign-ups, just play.</div>
     </div>
   </div>
 
-<script src="script.js"></script>
+  <div id="map"></div>
+
+  <!-- Top status bar -->
+  <div class="topbar">
+      <div>⏱️ <span id="time">60</span>s</div>
+      <div>⭐ <span id="score">0</span> pts</div>
+      <div>❤️ <span id="lives">5</span></div>
+  </div>
+
+  <!-- Right-side target panel -->
+  <div class="right-panel" id="targetPanel">
+    <div class="flag" id="flagEmoji">🌐</div>
+    <div class="target-text"><div id="countryName">—</div><div id="capitalName">—</div></div>
+  </div>
+
+  <!-- Bottom panel -->
+  <div class="bottom-panel">
+    <div class="panel-box">
+        <div id="roundResult">No guesses yet.</div>
+        <div class="info-log"><ol id="log"></ol></div>
+        <div class="controls">
+          <button id="startBtn">Start</button>
+          <button id="skipBtn" class="muted">Skip</button>
+          <select id="themeSel" aria-label="Theme selector">
+            <option value="dark">Dark</option>
+            <option value="neon">Neon</option>
+            <option value="pastel">Pastel</option>
+            <option value="retro">Retro</option>
+          </select>
+        </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS and MiniMap plugin -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-minimap/dist/Control.MiniMap.min.js"></script>
+
+  <script src="script.js"></script>
 </body>
 </html>
