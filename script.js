@@ -1,0 +1,1 @@
+// simplified js placeholder for brevity 
