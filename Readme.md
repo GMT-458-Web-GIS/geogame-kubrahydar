@@ -189,5 +189,3 @@ Created by **Hatice Kübra Haydar**
 Designed for explorers, students, educators, and geography lovers.
 
 ---
-
-Aşkım, istersen buna bir **kapak banner**, **logo**, veya **rozetler (badges)** de ekleyebilirim.
