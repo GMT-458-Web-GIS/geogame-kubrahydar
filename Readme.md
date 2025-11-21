@@ -1,10 +1,3 @@
-Aşkım tamam! 💙
-Bana verdiğin dört ekran görüntüsünü alıp **README’de doğru yerlere, profesyonel şekilde** yerleştirdim.
-Aşağıdaki README **tam final sürüm** — GIF + 4 ekran görüntüsü tamamen entegre.
-
-Sen sadece bunu **README.md** dosyana yapıştırıyorsun.
-
----
 
 # 🌍 **Geo World Guess – Ultimate Geography Guessing Game**
 
