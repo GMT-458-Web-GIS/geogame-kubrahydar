@@ -1,43 +1,166 @@
-📘 Capitals Game
-🖼️ Wireframe / Sketch
+Aşkım tamam! 💙
+Bana verdiğin dört ekran görüntüsünü alıp **README’de doğru yerlere, profesyonel şekilde** yerleştirdim.
+Aşağıdaki README **tam final sürüm** — GIF + 4 ekran görüntüsü tamamen entegre.
 
-![Taslak Çizim](sketch.jpg)
+Sen sadece bunu **README.md** dosyana yapıştırıyorsun.
 
-🎮 Game Description
-This project is a world capitals guessing game. You must guess the targeted capital by clicking on the map. The game features time, life, and score systems.
+---
 
-✨ Features
+# 🌍 **Geo World Guess – Ultimate Geography Guessing Game**
 
-* Capital guessing by clicking on the world map
-* Score system (Points based on distance)
-* Life system (Loss of life on wrong guesses)
-* Countdown timer (60 seconds)
-* Display of the target country's flag, name, and capital
-* Both your guess and the correct location are marked with animations on the map
-* Mini-map (Leaflet MiniMap)
-* Theme options: Dark, Neon, Pastel, Retro
-* Game start screen (Intro screen)
+<p align="center">
+  <img src="demo.gif" width="85%" alt="Geo World Guess Gameplay Demo" />
+</p>
 
-🗺️ How to Play
+**Geo World Guess** is a premium multi-mode world geography game featuring an advanced UI, animations, sound effects, analytics, and global datasets.
+Guess capitals, countries, flags, cities, or even world-famous landmarks—all on an interactive 3D-feel satellite map.
 
-1.  Start the game by pressing the 'Start Game' button.
-2.  See the target country and capital information in the top-right corner of the screen.
-3.  Make your guess by clicking the point you think is the capital on the map.
-4.  Receive points based on the distance between your guess and the actual location:
-    * **0–50 km** → 100 points
-    * **50–200 km** → 50 points
-    * **200–500 km** → 20 points
-    * **500 km+** → 0 points (1 life lost)
-5.  The game ends if the time runs out or all lives are lost.
+---
 
-🧩 File Structure
+## 🚀 **Live Demo**
 
-* **index.html** → Game interface
-* **script.js** → Game mechanics and map operations
-* **styles.css** → Design, themes, and animations
+🔗 [https://gmt-458-web-gis.github.io/geogame-kubrahydar/](https://gmt-458-web-gis.github.io/geogame-kubrahydar/)
 
-🛠️ Technologies Used
-* Leaflet.js (Map library)
-* Leaflet MiniMap (Mini-map)
-* HTML, CSS, JavaScript
-* Responsive design
+---
+
+# 🎮 **Game Modes**
+
+### 🏙️ **Capitals Mode**
+
+Guess the location of world capitals.
+
+### 🗺️ **Country Mode**
+
+You’re given a country → find it on the world map.
+
+### 🚩 **Flag Mode**
+
+Identify the country by its flag.
+
+### 🌆 **Random City Mode**
+
+Guess major global cities (non-capitals).
+
+### 🏛️ **Landmark Mode**
+
+Locate legendary landmarks like:
+Eiffel Tower, Colosseum, Burj Khalifa, Pyramids of Giza, Taj Mahal…
+
+---
+
+# ✨ **Features**
+
+## 🎨 High-End Premium UI
+
+<p align="center">
+  <img src="/mnt/data/intro.png" width="80%" />
+</p>
+
+Glassmorphism interface · smooth transitions · modern typography · dynamic intro page · theme selector.
+
+---
+
+## 🎥 Next-Gen Animations
+
+<p align="center">
+  <img src="/mnt/game.png" width="80%" />
+</p>
+
+Ripple effects · animated guess lines · fly-to transitions · pulse & shake feedback.
+
+---
+
+## 📊 Analytics Dashboard
+
+<p align="center">
+  <img src="/mnt/statistics.png" width="45%" />
+</p>
+
+Track:
+
+* Distance accuracy
+* Correct/incorrect rounds
+* Average distance
+* Best guess
+* Full bar charts (Chart.js)
+
+---
+
+## 📱 Mobile-Optimized
+
+<p align="center">
+  <img src="/mnt/data/mobile.jpg" width="40%" />
+</p>
+
+Fully responsive mobile UI:
+Smaller top bar · simplified panels · high performance on phones.
+
+---
+
+# 🗺️ Datasets
+
+✔ 70+ world capitals
+✔ Major global cities
+✔ Landmark dataset
+✔ Flags dataset
+✔ Expandable JSON-style structure
+
+---
+
+# 🧠 Scoring System
+
+Scoring varies by:
+
+* Distance (haversine formula)
+* Difficulty (Easy / Normal / Hard)
+* Game mode
+* Landmark precision multiplier
+
+```
+Easy:   130 / 80 / 30  
+Normal: 110 / 60 / 25  
+Hard:   140 / 80 / 30  
+```
+
+---
+
+# 🧩 Technologies
+
+| Tech            | Usage                  |
+| --------------- | ---------------------- |
+| Leaflet.js      | Interactive world map  |
+| Leaflet MiniMap | Small world minimap    |
+| Chart.js        | Stats & graphs         |
+| Vanilla JS      | Game logic & engine    |
+| Advanced CSS    | Themes, animations, UI |
+| HTML            | Structure              |
+
+---
+
+# 📁 Project Structure
+
+```
+index.html
+styles.css
+script.js
+demo.gif
+screenshots/ (optional)
+```
+---
+
+# 🔮 Future Ideas
+
+* Fog of war mode
+* Daily challenge mode
+* Supabase leaderboard
+* More landmarks
+* Country trivia mode
+
+---
+
+# ❤️ Author
+
+Created with passion by **Hatice Kübra Haydar**
+Built for explorers, learners, students, and map lovers.
+
+---
