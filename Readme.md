@@ -46,7 +46,7 @@ Eiffel Tower, Colosseum, Burj Khalifa, Pyramids of Giza, Taj Mahal…
 ## 🎨 High-End Premium UI
 
 <p align="center">
-  <img src="https://raw.gitusercontent.com/kubrahydar/geogame-kubrahydar/main/intro.png" width="80%" />
+  <img src=intro.png" width="80%" />
 </p>
 
 
