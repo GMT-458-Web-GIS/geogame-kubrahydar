@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Geo World Guess Game</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Leaflet MiniMap plugin -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-minimap/dist/Control.MiniMap.min.css"/>
+  <script src="https://unpkg.com/leaflet-minimap/dist/Control.MiniMap.min.js"></script>
+
+  <!-- Chart.js for analytics panel -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="theme-dark">
+  <!-- Intro / Start screen (fullscreen) -->
+  <div id="intro" class="intro-screen">
+    <div class="intro-card">
+      <h1>Geo Guess World</h1>
+      <p class="subtitle">Pick a mode, then click on the map to guess!</p>
+
+      <div class="intro-grid">
+        <div class="intro-col">
+          <h2>Game Mode</h2>
+          <select id="modeSelIntro" aria-label="Mode selector">
+            <option value="capitals">Capitals Mode</option>
+            <option value="country">Country Guess Mode</option>
+            <option value="flags">Flag Guess Mode</option>
+            <option value="cities">Random City Mode</option>
+            <option value="landmarks">Landmark Mode</option>
+          </select>
+
+          <h2>Difficulty</h2>
+          <select id="difficultySelIntro" aria-label="Difficulty selector">
+            <option value="easy">Easy</option>
+            <option value="normal" selected>Normal</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <div class="intro-col">
+          <h2>Theme</h2>
+          <select id="themeSelIntro" aria-label="Theme selector">
+            <option value="dark" selected>Dark</option>
+            <option value="neon">Neon</option>
+            <option value="pastel">Pastel</option>
+            <option value="retro">Retro</option>
+          </select>
+
+          <div class="intro-hints">
+            <p>• Click anywhere on the map to place your guess.</p>
+            <p>• Distance and difficulty decide your score.</p>
+            <p>• Try all modes: capitals, flags, cities, landmarks!</p>
+          </div>
+
+          <button id="introStart" class="primary big">Start Game</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map -->
+  <div id="map"></div>
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="top-item">
+      ⏱️ <span id="time">60</span>s
+    </div>
+    <div class="top-item">
+      ⭐ <span id="score">0</span> pts
+    </div>
+    <div class="top-item">
+      ❤️ <span id="lives">5</span>
+    </div>
+    <div class="top-item small">
+      Mode: <span id="modeLabel">Capitals</span>
+    </div>
+    <div class="top-item small">
+      Difficulty: <span id="difficultyLabel">Normal</span>
+    </div>
+  </div>
+
+  <!-- Right target panel -->
+  <div class="target-panel" id="targetPanel">
+    <div class="target-emoji" id="flagEmoji">🌍</div>
+    <div class="target-title" id="targetTitle">—</div>
+    <div class="target-subtitle" id="targetSubtitle">Pick a mode to start</div>
+    <div class="target-extra" id="targetExtra"></div>
+  </div>
+
+  <!-- Left analytics panel (shows after game ends) -->
+  <div class="analytics-panel" id="analyticsPanel">
+    <div class="analytics-header">📊 Game Stats</div>
+    <p id="summaryText" class="analytics-summary">Play a round to see your stats.</p>
+    <canvas id="statsChart"></canvas>
+  </div>
+
+  <!-- Bottom panel -->
+  <div class="bottom-panel">
+    <div class="panel-box" id="panelBox">
+      <div class="panel-top-row">
+        <div class="city-name">
+          Target: <span id="cityName">—</span>
+        </div>
+        <div class="mode-picker">
+          <select id="modeSel" aria-label="Mode selector bottom">
+            <option value="capitals">Capitals</option>
+            <option value="country">Country</option>
+            <option value="flags">Flags</option>
+            <option value="cities">Cities</option>
+            <option value="landmarks">Landmarks</option>
+          </select>
+
+          <select id="difficultySel" aria-label="Difficulty selector bottom">
+            <option value="easy">Easy</option>
+            <option value="normal" selected>Normal</option>
+            <option value="hard">Hard</option>
+          </select>
+
+          <select id="themeSel" aria-label="Theme selector bottom">
+            <option value="dark">Dark</option>
+            <option value="neon">Neon</option>
+            <option value="pastel">Pastel</option>
+            <option value="retro">Retro</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="roundResult" class="round-result">No guess made yet.</div>
+
+      <div class="info-log">
+        <ol id="log"></ol>
+      </div>
+
+      <div class="panel-buttons">
+        <button id="startBtn" class="primary">Start</button>
+        <button id="nextBtn" class="secondary">Skip Target</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
