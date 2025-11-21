@@ -46,7 +46,7 @@ Eiffel Tower, Colosseum, Burj Khalifa, Pyramids of Giza, Taj Mahal…
 ## 🎨 High-End Premium UI
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/kubrahydar/geogame-kubrahydar/main/intro.png" width="80%" />
+  <img src="https://raw.gitusercontent.com/kubrahydar/geogame-kubrahydar/main/intro.png" width="80%" />
 </p>
 
 
@@ -57,7 +57,7 @@ Glassmorphism interface · smooth transitions · modern typography · dynamic in
 ## 🎥 Next-Gen Animations
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/kubrahydar/geogame-kubrahydar/main/game.png" width="80%" />
+  <img src="https://raw.gitusercontent.com/kubrahydar/geogame-kubrahydar/main/game.png" width="80%" />
 </p>
 
 
@@ -68,7 +68,7 @@ Ripple effects · animated guess lines · fly-to transitions · pulse & shake fe
 ## 📊 Analytics Dashboard
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/kubrahydar/geogame-kubrahydar/main/statistics.png" width="45%" />
+  <img src="https://raw.gitusercontent.com/kubrahydar/geogame-kubrahydar/main/statistics.png" width="45%" />
 </p>
 
 
@@ -85,7 +85,7 @@ Track:
 ## 📱 Mobile-Optimized
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/kubrahydar/geogame-kubrahydar/main/mobile.jpg" width="40%" />
+  <img src="https://raw.gitusercontent.com/kubrahydar/geogame-kubrahydar/main/mobile.jpg" width="40%" />
 </p>
 
 Fully responsive mobile UI:
