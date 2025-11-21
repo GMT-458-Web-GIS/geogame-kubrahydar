@@ -1,154 +1,183 @@
 
-# 🌍 **Geo World Guess – Ultimate Geography Guessing Game**
+# 🌍 GeoGuess World
+
+**An advanced, multi-mode, interactive geography game inspired by GeoGuessr — featuring animations, sound effects, analytics, and a modern UI.**
 
 <p align="center">
-  <img src="demo.gif" width="85%" alt="Geo World Guess Gameplay Demo" />
+  <img src="https://raw.githubusercontent.com/GMT-458-Web-GIS/geogame-kubrahydar/main/demo.gif" width="85%" />
 </p>
-
-**Geo World Guess** is a premium multi-mode world geography game featuring an advanced UI, animations, sound effects, analytics, and global datasets.
-Guess capitals, countries, flags, cities, or even world-famous landmarks—all on an interactive 3D-feel satellite map.
 
 ---
 
-## 🚀 **Live Demo**
+## 🚀 Live Demo
 
 🔗 [https://gmt-458-web-gis.github.io/geogame-kubrahydar/](https://gmt-458-web-gis.github.io/geogame-kubrahydar/)
 
 ---
 
-# 🎮 **Game Modes**
+# 🎮 Game Modes
 
-### 🏙️ **Capitals Mode**
+### 🏛️ **Capitals Mode**
 
-Guess the location of world capitals.
+Guess the exact location of world capitals.
 
 ### 🗺️ **Country Mode**
 
-You’re given a country → find it on the world map.
+A country name appears — click its correct location on the world map.
 
 ### 🚩 **Flag Mode**
 
-Identify the country by its flag.
+Identify the country based on its flag.
 
 ### 🌆 **Random City Mode**
 
-Guess major global cities (non-capitals).
+Guess globally significant non-capital cities.
 
-### 🏛️ **Landmark Mode**
+### 🏔️ **Landmark Mode**
 
-Locate legendary landmarks like:
-Eiffel Tower, Colosseum, Burj Khalifa, Pyramids of Giza, Taj Mahal…
+Find world-famous monuments (Eiffel Tower, Colosseum, Taj Mahal, Burj Khalifa, Pyramids of Giza, and more).
 
 ---
 
-# ✨ **Features**
+# ✨ Features
 
 ## 🎨 High-End Premium UI
 
 <p align="center">
-  <img src=intro.png" width="80%" />
+  <img src="https://raw.githubusercontent.com/GMT-458-Web-GIS/geogame-kubrahydar/main/intro.png" width="80%" />
 </p>
 
-
-Glassmorphism interface · smooth transitions · modern typography · dynamic intro page · theme selector.
+* Glassmorphism interface
+* Smooth fade/slide transitions
+* Modern typography
+* Theme selector (Dark, Light, Neon, etc.)
+* Fully responsive layout
 
 ---
 
 ## 🎥 Next-Gen Animations
 
 <p align="center">
-  <img src="https://raw.gitusercontent.com/kubrahydar/geogame-kubrahydar/main/game.png" width="80%" />
+  <img src="https://raw.githubusercontent.com/GMT-458-Web-GIS/geogame-kubrahydar/main/game.png" width="80%" />
 </p>
 
-
-Ripple effects · animated guess lines · fly-to transitions · pulse & shake feedback.
+* Ripple click effects
+* Animated dashed “guess → correct location” line
+* Fly-to transitions
+* Pulse animation on correct guess
+* Shake animation on wrong guess
 
 ---
 
 ## 📊 Analytics Dashboard
 
 <p align="center">
-  <img src="https://raw.gitusercontent.com/kubrahydar/geogame-kubrahydar/main/statistics.png" width="45%" />
+  <img src="https://raw.githubusercontent.com/GMT-458-Web-GIS/geogame-kubrahydar/main/statistics.png" width="45%" />
 </p>
 
+Track your performance:
 
-Track:
-
-* Distance accuracy
-* Correct/incorrect rounds
+* Total rounds
+* Accuracy rate
 * Average distance
-* Best guess
-* Full bar charts (Chart.js)
+* Best performance
+* Full bar charts (distance + points) using Chart.js
 
 ---
 
-## 📱 Mobile-Optimized
+## 📱 Mobile-Optimized Experience
 
 <p align="center">
-  <img src="https://raw.gitusercontent.com/kubrahydar/geogame-kubrahydar/main/mobile.jpg" width="40%" />
+  <img src="https://raw.githubusercontent.com/GMT-458-Web-GIS/geogame-kubrahydar/main/mobile.jpg" width="40%" />
 </p>
 
-Fully responsive mobile UI:
-Smaller top bar · simplified panels · high performance on phones.
-
----
-
-# 🗺️ Datasets
-
-✔ 70+ world capitals
-✔ Major global cities
-✔ Landmark dataset
-✔ Flags dataset
-✔ Expandable JSON-style structure
+* Fully responsive layout
+* Mobile-friendly info panel
+* Larger tap targets
+* Optimized animations for mobile performance
 
 ---
 
 # 🧠 Scoring System
 
-Scoring varies by:
+Your score depends on:
 
-* Distance (haversine formula)
-* Difficulty (Easy / Normal / Hard)
+* Distance accuracy (Haversine formula)
+* Difficulty level
 * Game mode
-* Landmark precision multiplier
+* Precision multipliers (especially in landmark mode)
+
+Difficulty presets:
 
 ```
 Easy:   130 / 80 / 30  
 Normal: 110 / 60 / 25  
-Hard:   140 / 80 / 30  
+Hard:   140 / 80 / 30
 ```
 
 ---
 
-# 🧩 Technologies
+# 🗺️ Datasets
 
-| Tech            | Usage                  |
-| --------------- | ---------------------- |
-| Leaflet.js      | Interactive world map  |
-| Leaflet MiniMap | Small world minimap    |
-| Chart.js        | Stats & graphs         |
-| Vanilla JS      | Game logic & engine    |
-| Advanced CSS    | Themes, animations, UI |
-| HTML            | Structure              |
+* 70+ world capitals
+* Country list
+* Major world cities
+* Global landmarks
+* Flags dataset
+* Modular, expandable JSON system
+
+---
+
+# 🧩 Tech Stack
+
+| Technology          | Purpose                |
+| ------------------- | ---------------------- |
+| Leaflet.js          | Interactive map engine |
+| MiniMap plugin      | Small inset world map  |
+| Chart.js            | Analytics & charts     |
+| Vanilla JavaScript  | Game engine & logic    |
+| CSS (Glassmorphism) | UI & animations        |
+| HTML                | Structure              |
 
 ---
 
 # 📁 Project Structure
 
 ```
-index.html
-styles.css
-script.js
-demo.gif
-screenshots/ (optional)
+index.html        → Game layout  
+styles.css        → UI, animations, themes  
+script.js         → Logic, datasets, scoring  
+demo.gif          → Gameplay demo  
+intro.png         → Intro screen screenshot  
+game.png          → In-game screenshot  
+statistics.png    → Stats panel screenshot  
+mobile.jpg        → Mobile UI screenshot  
 ```
+
 ---
 
-# 🔮 Future Ideas
+# ⚙️ Run Locally
 
-* Fog of war mode
+```sh
+git clone https://github.com/GMT-458-Web-GIS/geogame-kubrahydar.git
+cd geogame-kubrahydar
+```
+
+Then simply open:
+
+```
+index.html
+```
+
+No backend. No build step. Runs instantly.
+
+---
+
+# 🔮 Future Improvements
+
 * Daily challenge mode
-* Supabase leaderboard
+* Fog-of-war hardcore mode
+* Leaderboard (Supabase)
 * More landmarks
 * Country trivia mode
 
@@ -156,7 +185,9 @@ screenshots/ (optional)
 
 # ❤️ Author
 
-Created with passion by **Hatice Kübra Haydar**
-Built for explorers, learners, students, and map lovers.
+Created by **Hatice Kübra Haydar**
+Designed for explorers, students, educators, and geography lovers.
 
 ---
+
+Aşkım, istersen buna bir **kapak banner**, **logo**, veya **rozetler (badges)** de ekleyebilirim.
